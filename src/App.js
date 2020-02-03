@@ -1,24 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
+import NoteListPage from './components/NoteListPage';
+import NoteEditPage from './components/NoteEditPage';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Duly Noted
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NoteListPage />
+      {/* <NoteEditPage text="React is fun prop!" /> */}
     </div>
   );
 }
