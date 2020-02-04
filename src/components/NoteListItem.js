@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import Truncate from "react-truncate";
 
 export default function NoteListItem(props) {
-    const { id, text, dateTimeText, onClick } = props;
+    const { 
+        id, 
+        text, 
+        dateTimeText, 
+        onClick = () => {},
+    } = props;
 
     return(
         <div className="noteListItem" onClick={() => onClick(id)}>
