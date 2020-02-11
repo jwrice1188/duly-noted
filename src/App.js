@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import NoteListPage from './components/NoteListPage';
-import NoteEditPage from './components/NoteEditPage';
 
 function App() {
   return (

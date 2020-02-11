@@ -1,32 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Truncate from "react-truncate";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function NoteListItem(props) {
-    const { 
-        id, 
-        text, 
-        dateTimeText, 
-        onClick = () => {},
-    } = props;
+  const React = require('react')
+  const ReactDOM = require('react-dom')
+  const ReactMarkdown = require('react-markdown')
+  
+  
+  const { 
+    createdAt, 
+    id, 
+    onClick = () => {},
+    text, 
+  } = props;
 
-    return(
-        <div className="noteListItem" onClick={() => onClick(id)}>
-            <p>
-                <Truncate maxLength={200} ellipsis="...">
-                    {text}
-                </Truncate>
-            </p>
-            <p>
-                {dateTimeText}
-            </p>
-        </div>
-    );
+  var truncatedText = text;
+
+  if(truncatedText.length > 200){
+    truncatedText = truncatedText.substring(0, 201) + "...";
+  }
+
+  // const [stateVariable, setStateValue] = useState(initialValue);
+  // const [timesClicked, setTimesClicked] = useState(0);
+
+  return(
+    <div className="noteListItem" onClick={() => onClick(id)}>
+      <ReactMarkdown source={truncatedText} />
+      <p>
+        {createdAt}
+        {/* {dayjs(createdAt).fromNow()} */}
+      </p>
+    </div>
+  );
 }
 
 NoteListItem.propTypes = {
-    id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    dateTimeText: PropTypes.string.isRequired,
-    onClick: PropTypes.func
+  createdAt: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  text: PropTypes.string.isRequired,
 }
