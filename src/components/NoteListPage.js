@@ -12,7 +12,7 @@ export default function NoteListPage(props) {
 
   const handleSelectedNoteSave = (newText) => {
     const newNotes = notes.map((note) => {
-      if(note.id === selectedNoteID) {
+      if (note.id === selectedNoteID) {
         return {
           ...note,
           text: newText
@@ -36,10 +36,10 @@ export default function NoteListPage(props) {
     setSelectedNoteId(null);
   }
 
-  if (selectedNoteID){
+  if (selectedNoteID) {
     const selectedNote = notes.find((note) => note.id === selectedNoteID)
     return (
-      <NoteEditPage 
+      <NoteEditPage
         onSave={handleSelectedNoteSave}
         onCancel={handleSelectedNoteCancel}
         onDelete={handleSelectedNoteDelete}
@@ -48,31 +48,31 @@ export default function NoteListPage(props) {
     )
   }
 
-  return(
+  return (
     <div className="page">
       <h1>Note List</h1>
       <div className="noteList">
         {
           notes.map((note) => {
             return (
-              <NoteListItem 
-              key={note.id}
-              id={note.id}
-              text={note.text}
-              createdAt={note.createdAt}
-              onClick={handleListItemClick}
+              <NoteListItem
+                key={note.id}
+                id={note.id}
+                text={note.text}
+                createdAt={note.createdAt}
+                onClick={handleListItemClick}
               />
             );
           })
         }
       </div>
     </div>
-    );
+  );
 }
 
-const oneHourAgo = Date.now() - (1*60*60*1000);
-const sixDaysAgo = Date.now() - (6*24*60*60*1000);
-const twoWeeksAgo = Date.now() - (14*24*60*60*1000);
+const oneHourAgo = Date.now() - (1 * 60 * 60 * 1000);
+const sixDaysAgo = Date.now() - (6 * 24 * 60 * 60 * 1000);
+const twoWeeksAgo = Date.now() - (14 * 24 * 60 * 60 * 1000);
 
 
 
