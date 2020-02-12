@@ -38,10 +38,6 @@ export default function NoteListPage(props) {
   }
 
   const handleSelectedNoteCancel = () => {
-    const sameNote = notes.map((note) => {
-      return note;
-    });
-    setNotes(sameNote);
     setSelectedNoteId(null);
   }
 
