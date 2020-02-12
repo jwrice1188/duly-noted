@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NoteListItem from "./NoteListItem";
 import NoteEditPage from "./NoteEditPage";
-import dayjs from "dayjs";
 
 export default function NoteListPage(props) {
   const [notes, setNotes] = useState(initialNotes)
@@ -10,10 +9,6 @@ export default function NoteListPage(props) {
   function handleListItemClick(id) {
     setSelectedNoteId(id);
   };
-
-  // const oneHourAgoMS = Date.now() - (1 * 60 * 60 * 1000);
-  // const createdAt = new Date(oneHourAgoMS);
-
 
   const handleSelectedNoteSave = (newText) => {
     const newNotes = notes.map((note) => {
@@ -79,28 +74,22 @@ const oneHourAgo = Date.now() - (1*60*60*1000);
 const sixDaysAgo = Date.now() - (6*24*60*60*1000);
 const twoWeeksAgo = Date.now() - (14*24*60*60*1000);
 
-function formatDate(date) {
-  if(date >= Date.now() - (1*7 * 24 * 60 * 60 * 1000)){
-    return dayjs(date).fromNow();
-  } else {
-    return dayjs(date).format("h:mm a on M/D/YYYY");
-  }
-}
+
 
 const initialNotes = [
   {
     id: "1",
-    createdAt: formatDate(oneHourAgo),
+    createdAt: new Date(oneHourAgo),
     text: "React _is_ **fun**!"
   },
   {
     id: "2",
-    createdAt: formatDate(sixDaysAgo),
+    createdAt: new Date(sixDaysAgo),
     text: "This is note 2"
   },
   {
     id: "3",
-    createdAt: formatDate(twoWeeksAgo),
+    createdAt: new Date(twoWeeksAgo),
     text: "This is note 3"
   },
 ];

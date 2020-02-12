@@ -1,15 +1,20 @@
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-export default function NoteListItem(props) {
-  const React = require('react')
-  const ReactDOM = require('react-dom')
-  const ReactMarkdown = require('react-markdown')
-  
+function formatDate(date) {
+  if(date >= Date.now() - (1*7 * 24 * 60 * 60 * 1000)){
+    return dayjs(date).fromNow();
+  } else {
+    return dayjs(date).format("h:mm a on M/D/YYYY");
+  }
+}
+
+export default function NoteListItem(props) { 
   
   const { 
     createdAt, 
@@ -24,22 +29,16 @@ export default function NoteListItem(props) {
     truncatedText = truncatedText.substring(0, 201) + "...";
   }
 
-  // const [stateVariable, setStateValue] = useState(initialValue);
-  // const [timesClicked, setTimesClicked] = useState(0);
-
   return(
     <div className="noteListItem" onClick={() => onClick(id)}>
       <ReactMarkdown source={truncatedText} />
-      <p>
-        {createdAt}
-        {/* {dayjs(createdAt).fromNow()} */}
-      </p>
+      <p>{formatDate(createdAt)}</p>
     </div>
   );
 }
 
 NoteListItem.propTypes = {
-  createdAt: PropTypes.func,
+  createdAt: PropTypes.instanceOf(Date),
   id: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   text: PropTypes.string.isRequired,

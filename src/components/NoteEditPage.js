@@ -15,8 +15,8 @@ export default function NoteEditPage(props) {
             <h1>Note Edit</h1>
             <textarea value={value} onChange={handleChange} /><br></br>
             <button type="button" onClick={() => onSave(value)}>Save Note</button>
-            <button type="button" onClick={() => onDelete(value)}>Delete Note</button>
-            <button type="button" onClick={() => onCancel(value)}>Cancel</button>
+            <button type="button" onClick={() => onDelete()}>Delete Note</button>
+            <button type="button" onClick={() => onCancel()}>Cancel</button>
         </div>
     );
 }
