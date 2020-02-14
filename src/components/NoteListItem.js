@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import PropTypes from "prop-types";
 import formatDate from "../util/formatDate";
@@ -12,10 +12,12 @@ export default function NoteListItem(props) {
     text,
   } = props;
 
-  var truncatedText = text;
+  var truncatedText = text.trim();
 
   if (truncatedText.length > 200) {
     truncatedText = truncatedText.substring(0, 201) + "...";
+  } else if (truncatedText === ""){
+    truncatedText = "No Note Text";
   }
 
   return (

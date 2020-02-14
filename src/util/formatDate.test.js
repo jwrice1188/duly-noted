@@ -1,6 +1,7 @@
 import formatDate from "./formatDate";
 
 const sixDaysAgo = Date.now() - (6 * 24 * 60 * 60 * 1000);
+const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
 
 test("less than one week ago", () => {
   const testDate = new Date(sixDaysAgo);
@@ -13,3 +14,9 @@ test("more than one week ago", () => {
   const result = formatDate(testDate);
   expect(result).toBe("12:05 pm on 1/1/2020");
 });
+
+test("five minutes ago", () => {
+  const testDate = new Date(fiveMinutesAgo);
+  const result = formatDate(testDate);
+  expect(result).toBe("5 minutes ago")
+})

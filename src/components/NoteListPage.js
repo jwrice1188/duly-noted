@@ -74,8 +74,6 @@ const oneHourAgo = Date.now() - (1 * 60 * 60 * 1000);
 const sixDaysAgo = Date.now() - (6 * 24 * 60 * 60 * 1000);
 const twoWeeksAgo = Date.now() - (14 * 24 * 60 * 60 * 1000);
 
-
-
 const initialNotes = [
   {
     id: "1",
@@ -85,7 +83,7 @@ const initialNotes = [
   {
     id: "2",
     createdAt: new Date(sixDaysAgo),
-    text: "This is note 2"
+    text: " "
   },
   {
     id: "3",

@@ -84,3 +84,10 @@ export const ErrorText = () => {
       text="This is a short note" />
   );
 };
+
+//White Space
+export const WhiteSpace = () => {
+  return (
+    <NoteListItem id="1" createdAt={new Date()} text=" " />
+  );
+};
