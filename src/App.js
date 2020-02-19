@@ -6,7 +6,6 @@ function App() {
   return (
     <div className="App">
       <NoteListPage />
-      {/* <NoteEditPage text="React is fun prop!" /> */}
     </div>
   );
 }
