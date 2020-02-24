@@ -26,7 +26,7 @@ export const LongText = () => {
 
 export const MarkdownText = () => {
   return (
-    <NoteListItem id="1" createdAt={new Date()} text="This _is_ some **markdown** ||text||" />
+    <NoteListItem id="1" createdAt={new Date()} text="This _is_ some **markdown** ``text``" />
   );
 };
 
