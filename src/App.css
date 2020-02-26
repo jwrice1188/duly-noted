@@ -1,17 +1,16 @@
-.App {
+@font-face {
+  font-family: 'PressStart2P';
+  src: local('PressStart2P'), url(./fonts/PressStart2P-Regular.ttf) format('truetype');
+}
+
+:root {
+  --ion-background-color: black;
+  --ion-text-color: gray;
+  --ion-font-family: 'PressStart2P';
   text-align: center;
+
 }
 
-.noteListItem {
-  background-color: #dddddd;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.noteListItem:nth-of-type(odd){
-  background-color: #eeeeee;
-}
-
-.noteListItem:hover{
-  background-color: #cccccc;
+.time {
+  --ion-font-size: 102em;
 }
