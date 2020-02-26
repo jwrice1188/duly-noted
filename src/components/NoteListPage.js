@@ -5,19 +5,28 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonList
+  IonList,
+  IonFab,
+  IonFabButton,
+  IonIcon
+
 } from "@ionic/react";
 import { add } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import NoteListItem from "./NoteListItem";
-import NoteEditPage from "./NoteEditPage";
+import useNotes from "../hooks/useNotes";
 
 export default function NoteListPage(props) {
-  const [notes, setNotes] = useState(initialNotes)
+  const { notes, createNote } = useNotes()
   const history = useHistory();
 
-  function handleListItemClick(id) {
-    history.push('/notes/edit/${id}');
+  const handleListItemClick = (id) => {
+    history.push(`/notes/edit/${id}`);
+  };
+
+  const handleNewNoteClick = () => {
+    const { id } = createNote();
+    history.push(`/notes/edit/${id}`);
   };
 
   return (
@@ -43,29 +52,12 @@ export default function NoteListPage(props) {
             })
           }
         </IonList>
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton onClick={handleNewNoteClick}>
+            <IonIcon icon={add} />
+          </IonFabButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );
 }
-
-const oneHourAgo = Date.now() - (1 * 60 * 60 * 1000);
-const sixDaysAgo = Date.now() - (6 * 24 * 60 * 60 * 1000);
-const twoWeeksAgo = Date.now() - (14 * 24 * 60 * 60 * 1000);
-
-const initialNotes = [
-  {
-    id: "1",
-    createdAt: new Date(oneHourAgo),
-    text: "React _is_ **fun**!"
-  },
-  {
-    id: "2",
-    createdAt: new Date(sixDaysAgo),
-    text: ""
-  },
-  {
-    id: "3",
-    createdAt: new Date(twoWeeksAgo),
-    text: "This is note 3"
-  },
-];

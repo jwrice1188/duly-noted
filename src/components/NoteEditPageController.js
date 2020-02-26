@@ -2,33 +2,23 @@ import React from "react";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import NoteEditPage from "./NoteEditPage";
+import useNotes from "../hooks/useNotes";
 
 export default function NoteEditPageController() {
   const { id } = useParams();
   const history = useHistory();
+  const { notes, deleteNote, updateNote } = useNotes();
 
   const selectedNote = notes.find((note) => note.id === id)
   if (!selectedNote) return null;
   const handleSelectedNoteSave = (newText) => {
-    const newNotes = notes.map((note) => {
-      if (note.id === id) {
-        return {
-          ...note,
-          text: newText
-        };
-      }
-      return note;
-    });
-    setNotes(newNotes);
+    updateNote(id, newText);
     history.goBack();
- 
   };
 
   const handleSelectedNoteDelete = () => {
-    const checkMatch = note => note.id !== id
-    const deleteThis = notes.filter(checkMatch)
+    deleteNote(id);
     history.goBack();
-    setNotes(deleteThis);
   }
 
 
