@@ -9,16 +9,18 @@ import {
   IonButtons,
   IonButton,
   IonIcon,
-  IonActionSheet
+  IonActionSheet,
+  IonAlert
 } from "@ionic/react";
-import { chevronBack, ellipsisHorizontal, trash, close } from "ionicons/icons";
+import { chevronBack, ellipsisHorizontal, trash, close, albums } from "ionicons/icons";
 import styles from "./NoteEditPage.module.css";
 
 export default function NoteEditPage(props) {
-  const { onSave, onDelete, text } = props;
+  const { onSave, onDelete, onArchive, text } = props;
 
   const [value, setValue] = useState(text);
   const [showActions, setShowActions] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -51,13 +53,35 @@ export default function NoteEditPage(props) {
               text: "Delete",
               role: "destructive",
               icon: trash,
-              handler: onDelete
+              handler: () => setShowAlert(true)
+            },
+            {
+              text: "Archive",
+              icon: albums,
+              handler: onArchive
             },
             {
               text: "Cancel",
               role: "cancel",
               icon: close,
               handler: () => setShowActions(false)
+            }
+          ]}
+        />
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          header={'Delete?'}
+          message={'Are you sure you want to delete this note?'}
+          buttons={[
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => setShowAlert(false)
+            },
+            {
+              text: 'Delete',
+              handler: onDelete
             }
           ]}
         />
@@ -69,5 +93,6 @@ export default function NoteEditPage(props) {
 NoteEditPage.propTypes = {
   onSave: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onArchive: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired
 };
