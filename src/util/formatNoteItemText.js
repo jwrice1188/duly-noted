@@ -1,11 +1,18 @@
-export default function formatNoteItemText(text) {
-  text.trim();
-  text.replace(/\n\s*\n/g, "\n");
-  
-  if (text.length > 200) {
-    text = text.substring(0, 201) + "...";
-  } else if (text === null || text === 'undefined') {
-    text = "_No Note Text_";
+export default function formatNoteItemText(text) {  
+
+  if (text === null || text === undefined) {
+    text = "No note text";
   }
+  if (text.length > 200) {
+    text = text.substring(0, 200) + "...";
+  }
+  
+  text = text.trim();
+  text = text.replace(/\n*\n/g, " - ");
+
+  if (text === "") {
+    text = "No note text";
+  }
+
   return text;
 }

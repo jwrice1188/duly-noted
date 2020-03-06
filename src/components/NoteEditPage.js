@@ -14,6 +14,7 @@ import {
 } from "@ionic/react";
 import { chevronBack, ellipsisHorizontal, trash, close, albums } from "ionicons/icons";
 import styles from "./NoteEditPage.module.css";
+import { useTranslation } from "react-i18next";
 
 export default function NoteEditPage(props) {
   const { onSave, onDelete, onArchive, text } = props;
@@ -21,6 +22,7 @@ export default function NoteEditPage(props) {
   const [value, setValue] = useState(text);
   const [showActions, setShowActions] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const { t } = useTranslation();
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -35,7 +37,7 @@ export default function NoteEditPage(props) {
               <IonIcon slot="icon-only" icon={chevronBack} />
             </IonButton>
           </IonButtons>
-          <IonTitle>Note Edit</IonTitle>
+          <IonTitle>{t("noteEditPageTitle")}</IonTitle>
           <IonButtons slot="primary">
             <IonButton color="secondary" onClick={() => setShowActions(true)}>
               <IonIcon slot="icon-only" icon={ellipsisHorizontal} />
@@ -50,18 +52,18 @@ export default function NoteEditPage(props) {
           onDidDismiss={() => setShowActions(false)}
           buttons={[
             {
-              text: "Delete",
+              text: t("noteEditDelete"),
               role: "destructive",
               icon: trash,
               handler: () => setShowAlert(true)
             },
             {
-              text: "Archive",
+              text: t("noteEditArchive"),
               icon: albums,
               handler: onArchive
             },
             {
-              text: "Cancel",
+              text: t("noteEditCancel"),
               role: "cancel",
               icon: close,
               handler: () => setShowActions(false)
@@ -75,12 +77,12 @@ export default function NoteEditPage(props) {
           message={'Are you sure you want to delete this note?'}
           buttons={[
             {
-              text: 'Cancel',
+              text: t("noteEditCancel"),
               role: 'cancel',
               handler: () => setShowAlert(false)
             },
             {
-              text: 'Delete',
+              text: t("noteEditDelete"),
               handler: onDelete
             }
           ]}
