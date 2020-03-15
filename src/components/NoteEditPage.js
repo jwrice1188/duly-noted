@@ -73,8 +73,8 @@ export default function NoteEditPage(props) {
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
-          header={'Delete?'}
-          message={'Are you sure you want to delete this note?'}
+          header={t("noteEditDelete")}
+          message={t("noteEditConfirm")}
           buttons={[
             {
               text: t("noteEditCancel"),

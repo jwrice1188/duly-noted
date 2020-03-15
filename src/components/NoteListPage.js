@@ -21,9 +21,16 @@ import { useTranslation } from "react-i18next";
 export default function NoteListPage(props) {
   const { notes, createNote } = useNotes();
   const history = useHistory();
-  const activeNotes = notes.filter((note) => note.isArchived !== true);
-  const [showActive, setShowActive] = useState(activeNotes);
+  // const activeNotes = notes.filter((note) => note.isArchived !== true);
+  const [showActive, setShowActive] = useState(false);
   const { t } = useTranslation();
+
+  let filteredNotes;
+    if (showActive) {
+      filteredNotes = notes.filter((note) => note.isArchived !== true);
+    } else {
+      filteredNotes = notes;
+    }
 
   const handleListItemClick = (id) => {
     history.push(`/notes/edit/${id}`);
@@ -35,12 +42,8 @@ export default function NoteListPage(props) {
   };
 
   const handleArchiveFilterClick = () => {
-    if (showActive === notes) {
-      setShowActive(activeNotes);
-    } else {
-      setShowActive(notes);
-    }
-  }
+    setShowActive(!showActive);
+  };
 
   return (
     <IonPage>
@@ -57,7 +60,7 @@ export default function NoteListPage(props) {
       <IonContent>
         <IonList lines="full">
           {
-            showActive.map((note) => {
+            filteredNotes.map((note) => {
               return (
                 <NoteListItem
                   key={note.id}

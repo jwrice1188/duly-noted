@@ -5,7 +5,8 @@ export default {
       noteEditPageTitle: "Note Edit",
       noteEditDelete: "Delete",
       noteEditArchive: "Archive",
-      noteEditCancel: "Cancel"
+      noteEditCancel: "Cancel",
+      noteEditConfirm: "Are you sure you want to delete this note?"
     }
   },
   es: {
@@ -13,7 +14,8 @@ export default {
       noteListPageTitle: "Lista de notas",
       noteEditDelete: "Eliminar",
       noteEditArchive: "Archivo",
-      noteEditCancel: "Cancelar"
+      noteEditCancel: "Cancelar",
+      noteEditConfirm: "¿Estás seguro que quieres eliminar esta nota?"
     }
   }
 }
