@@ -16,7 +16,7 @@ export function NotesProvider(props) {
   const [notes, setNotes] = useState(initialNotes);
 
   return (
-    <NotesContext.Provider value = {[notes, setNotes]}>
+    <NotesContext.Provider value={[notes, setNotes]}>
       {props.children}
     </NotesContext.Provider>
   );
@@ -38,7 +38,8 @@ export default function useNotes() {
       const newNote = {
         id,
         createdAt: new Date(),
-        text: ""
+        text: "",
+        isArchived: false
       };
 
       const updatedNotes = [newNote, ...notes];
@@ -48,8 +49,20 @@ export default function useNotes() {
     },
     deleteNote(id) {
       const checkMatch = note => note.id !== id
-    const deleteThis = notes.filter(checkMatch)
-    savedNotes(deleteThis);
+      const deleteThis = notes.filter(checkMatch)
+      savedNotes(deleteThis);
+    },
+    archiveNote(id) {
+      const newNotes = notes.map((note) => {
+        if (note.id === id) {
+          return {
+            ...note,
+            isArchived: true
+          }
+        }
+        return note;
+      });
+      savedNotes(newNotes);
     },
     updateNote(id, newText) {
       const newNotes = notes.map((note) => {

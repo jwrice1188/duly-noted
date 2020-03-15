@@ -8,17 +8,29 @@ import {
   IonList,
   IonFab,
   IonFabButton,
-  IonIcon
-
+  IonIcon,
+  IonButtons,
+  IonButton,
 } from "@ionic/react";
-import { add } from "ionicons/icons";
+import { add, funnel } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import NoteListItem from "./NoteListItem";
 import useNotes from "../hooks/useNotes";
+import { useTranslation } from "react-i18next";
 
 export default function NoteListPage(props) {
-  const { notes, createNote } = useNotes()
+  const { notes, createNote } = useNotes();
   const history = useHistory();
+  // const activeNotes = notes.filter((note) => note.isArchived !== true);
+  const [showActive, setShowActive] = useState(false);
+  const { t } = useTranslation();
+
+  let filteredNotes;
+    if (showActive) {
+      filteredNotes = notes.filter((note) => note.isArchived !== true);
+    } else {
+      filteredNotes = notes;
+    }
 
   const handleListItemClick = (id) => {
     history.push(`/notes/edit/${id}`);
@@ -29,23 +41,33 @@ export default function NoteListPage(props) {
     history.push(`/notes/edit/${id}`);
   };
 
+  const handleArchiveFilterClick = () => {
+    setShowActive(!showActive);
+  };
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Note List</IonTitle>
+          <IonButtons slot="secondary">
+            <IonButton color="secondary" onClick={handleArchiveFilterClick}>
+              <IonIcon slot="icon-only" icon={funnel} />
+            </IonButton>
+          </IonButtons>
+          <IonTitle>{t("noteListPageTitle")}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonList lines="full">
           {
-            notes.map((note) => {
+            filteredNotes.map((note) => {
               return (
                 <NoteListItem
                   key={note.id}
                   id={note.id}
                   text={note.text}
                   createdAt={note.createdAt}
+                  isArchived={note.isArchived}
                   onClick={handleListItemClick}
                 />
               );

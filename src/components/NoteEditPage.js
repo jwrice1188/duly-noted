@@ -9,16 +9,20 @@ import {
   IonButtons,
   IonButton,
   IonIcon,
-  IonActionSheet
+  IonActionSheet,
+  IonAlert
 } from "@ionic/react";
-import { chevronBack, ellipsisHorizontal, trash, close } from "ionicons/icons";
+import { chevronBack, ellipsisHorizontal, trash, close, albums } from "ionicons/icons";
 import styles from "./NoteEditPage.module.css";
+import { useTranslation } from "react-i18next";
 
 export default function NoteEditPage(props) {
-  const { onSave, onDelete, text } = props;
+  const { onSave, onDelete, onArchive, text } = props;
 
   const [value, setValue] = useState(text);
   const [showActions, setShowActions] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const { t } = useTranslation();
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -33,7 +37,7 @@ export default function NoteEditPage(props) {
               <IonIcon slot="icon-only" icon={chevronBack} />
             </IonButton>
           </IonButtons>
-          <IonTitle>Note Edit</IonTitle>
+          <IonTitle>{t("noteEditPageTitle")}</IonTitle>
           <IonButtons slot="primary">
             <IonButton color="secondary" onClick={() => setShowActions(true)}>
               <IonIcon slot="icon-only" icon={ellipsisHorizontal} />
@@ -48,16 +52,38 @@ export default function NoteEditPage(props) {
           onDidDismiss={() => setShowActions(false)}
           buttons={[
             {
-              text: "Delete",
+              text: t("noteEditDelete"),
               role: "destructive",
               icon: trash,
-              handler: onDelete
+              handler: () => setShowAlert(true)
             },
             {
-              text: "Cancel",
+              text: t("noteEditArchive"),
+              icon: albums,
+              handler: onArchive
+            },
+            {
+              text: t("noteEditCancel"),
               role: "cancel",
               icon: close,
               handler: () => setShowActions(false)
+            }
+          ]}
+        />
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          header={t("noteEditDelete")}
+          message={t("noteEditConfirm")}
+          buttons={[
+            {
+              text: t("noteEditCancel"),
+              role: 'cancel',
+              handler: () => setShowAlert(false)
+            },
+            {
+              text: t("noteEditDelete"),
+              handler: onDelete
             }
           ]}
         />
@@ -69,5 +95,6 @@ export default function NoteEditPage(props) {
 NoteEditPage.propTypes = {
   onSave: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onArchive: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired
 };
