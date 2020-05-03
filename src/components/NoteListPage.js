@@ -14,16 +14,64 @@ import {
 } from "@ionic/react";
 import { add, funnel } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import NoteListItem from "./NoteListItem";
 import useNotes from "../hooks/useNotes";
-import { useTranslation } from "react-i18next";
+
+const GET_NOTES = gql`
+  {
+    notes(includeArchived: true) {
+      id
+      createdAt
+      isArchived
+      text
+    }
+  }
+`;  
+
+const CREATE_NOTE = gql`
+  mutation createNote($note: CreateNoteInput!) {
+    createNote(note: $note) {
+      id
+      createdAt
+      isArchived
+      text
+    }
+  }
+`;
 
 export default function NoteListPage(props) {
-  const { notes, createNote } = useNotes();
+  const [createNote] = useMutation(CREATE_NOTE, {
+    onCompleted(data) {
+      if(data && data.createNote) {
+        const id = data.createNote.id;
+        history.push(`/notes/edit/${id}`);
+      }
+    },
+    refetchQueries: [
+      {
+        query: GET_NOTES
+      }
+    ]
+  });
+  const { data, error, loading } = useQuery(GET_NOTES, {
+    pollInterval: 5000
+  });
+  // const { createNote } = useNotes();
   const history = useHistory();
-  // const activeNotes = notes.filter((note) => note.isArchived !== true);
   const [showActive, setShowActive] = useState(false);
   const { t } = useTranslation();
+
+  if (loading) {
+    return "Loading..." //TODO: eventually show a loading spinner
+  }
+
+  if (error) {
+    return `${error}`; // Display errors on page for now
+  }
+
+  const notes = (data && data.notes) || [];
 
   let filteredNotes;
     if (showActive) {
@@ -37,8 +85,13 @@ export default function NoteListPage(props) {
   };
 
   const handleNewNoteClick = () => {
-    const { id } = createNote();
-    history.push(`/notes/edit/${id}`);
+    createNote({
+      variables: {
+        note: {
+          text: ""
+        }
+      }
+    });
   };
 
   const handleArchiveFilterClick = () => {
@@ -66,7 +119,7 @@ export default function NoteListPage(props) {
                   key={note.id}
                   id={note.id}
                   text={note.text}
-                  createdAt={note.createdAt}
+                  createdAt={new Date(note.createdAt)}
                   isArchived={note.isArchived}
                   onClick={handleListItemClick}
                 />
