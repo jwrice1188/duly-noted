@@ -108,8 +108,8 @@ export default function NoteEditPageController() {
           }
         }
       });
+      history.goBack();
     }
-    history.goBack();
   }
 
   const handleSelectedNoteArchive = () => {
