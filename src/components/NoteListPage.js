@@ -17,7 +17,6 @@ import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import NoteListItem from "./NoteListItem";
-import useNotes from "../hooks/useNotes";
 
 const GET_NOTES = gql`
   {
