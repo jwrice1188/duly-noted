@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import NoteEditPage from "./NoteEditPage";
-import NoteListPage from "./NoteListPage";
+import { GET_NOTES } from "./NoteListPage";
 
 const GET_ONE_NOTE = gql`
   query note($id: ID!) {
@@ -20,9 +20,7 @@ const UPDATE_NOTE = gql`
   mutation updateNote($id: ID!, $note: UpdateNoteInput!) {
     updateNote(
       id: $id 
-      note: {
-        text: $text
-      }
+      note: $note
     ) 
     {
       isArchived
@@ -35,7 +33,7 @@ const DELETE_NOTE = gql`
   mutation deleteNote($id: ID!) {
     deleteNote(
       id: $id
-    ) 
+    )
     {
       isArchived
       text
@@ -47,13 +45,12 @@ export default function NoteEditPageController() {
   const [updateNote] = useMutation(UPDATE_NOTE, {
     onCompleted(data) {
       if (data && data.updateNote) {
-        const id = data.updateNote.id;
-        history.push(`/notes/edit/${id}`);
+        history.goBack();
       }
     },
     refetchQueries: [
       {
-        query: NoteListPage.GET_NOTES
+        query: GET_NOTES
       }
     ]
   });
@@ -61,13 +58,12 @@ export default function NoteEditPageController() {
   const [deleteNote] = useMutation(DELETE_NOTE, {
     onCompleted(data) {
       if (data && data.deleteNote) {
-        const id = data.deleteNote.id;
-        history.push(`/notes/edit/${id}`);
+        history.goBack();
       }
     },
     refetchQueries: [
       {
-        query: NoteListPage.GET_NOTES
+        query: GET_NOTES
       }
     ]
   });
@@ -98,7 +94,6 @@ export default function NoteEditPageController() {
           id: selectedNote.id
         }
       });
-      history.goBack();
     } else {
       updateNote({
         variables: {
@@ -108,7 +103,6 @@ export default function NoteEditPageController() {
           }
         }
       });
-      history.goBack();
     }
   }
 
@@ -117,11 +111,10 @@ export default function NoteEditPageController() {
       variables: {
         id: selectedNote.id,
         note: {
-          isArchived: selectedNote.isArchived
+          isArchived: true
         }
       }
     });
-    history.goBack();
   }
 
   const handleSelectedNoteDelete = () => {
@@ -130,7 +123,6 @@ export default function NoteEditPageController() {
         id: selectedNote.id
       }
     });
-    history.goBack();
   };
 
   return (
