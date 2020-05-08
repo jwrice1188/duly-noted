@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import NoteListItem from "./NoteListItem";
 
-export const GET_NOTES = gql`
+const GET_NOTES = gql`
   {
     notes(includeArchived: true) {
       id
