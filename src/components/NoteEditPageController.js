@@ -21,7 +21,7 @@ const UPDATE_NOTE = gql`
     updateNote(
       id: $id 
       note: {
-        text: $text
+        note: $note
       }
     ) 
     {
@@ -47,8 +47,7 @@ export default function NoteEditPageController() {
   const [updateNote] = useMutation(UPDATE_NOTE, {
     onCompleted(data) {
       if (data && data.updateNote) {
-        const id = data.updateNote.id;
-        history.push(`/notes/edit/${id}`);
+        history.goBack();
       }
     },
     refetchQueries: [
@@ -61,8 +60,7 @@ export default function NoteEditPageController() {
   const [deleteNote] = useMutation(DELETE_NOTE, {
     onCompleted(data) {
       if (data && data.deleteNote) {
-        const id = data.deleteNote.id;
-        history.push(`/notes/edit/${id}`);
+        history.goBack();
       }
     },
     refetchQueries: [
@@ -117,7 +115,7 @@ export default function NoteEditPageController() {
       variables: {
         id: selectedNote.id,
         note: {
-          isArchived: selectedNote.isArchived
+          isArchived: true
         }
       }
     });
