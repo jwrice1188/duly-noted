@@ -1,7 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import PropTypes from "prop-types";
-import { IonItem, IonLabel } from "@ionic/react";
+import { IonItem, IonNote } from "@ionic/react";
 import formatDate from "../util/formatDate";
 import formatNoteItemText from "../util/formatNoteItemText";
 
@@ -16,10 +16,10 @@ export default function NoteListItem(props) {
 
   return (
     <IonItem onClick={() => onClick(id)}>
-      <IonLabel>
         <ReactMarkdown source={formatNoteItemText(text)} />
-        <p>{formatDate(createdAt)}</p>
-      </IonLabel>
+        <IonNote slot="end" color="primary">
+          {formatDate(createdAt)}
+        </IonNote>
     </IonItem>
   );
 }

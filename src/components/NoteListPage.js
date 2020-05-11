@@ -19,15 +19,15 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import NoteListItem from "./NoteListItem";
 
 export const GET_NOTES = gql`
-  {
-    notes(includeArchived: true) {
-      id
-      createdAt
-      isArchived
-      text
+  query notes($includeArchived: Boolean) {
+      notes(includeArchived: $includeArchived) {
+        id
+        createdAt
+        isArchived
+        text
+      }
     }
-  }
-`;  
+`;
 
 const CREATE_NOTE = gql`
   mutation createNote($note: CreateNoteInput!) {
@@ -43,7 +43,7 @@ const CREATE_NOTE = gql`
 export default function NoteListPage(props) {
   const [createNote] = useMutation(CREATE_NOTE, {
     onCompleted(data) {
-      if(data && data.createNote) {
+      if (data && data.createNote) {
         const id = data.createNote.id;
         history.push(`/notes/edit/${id}`);
       }
@@ -54,13 +54,17 @@ export default function NoteListPage(props) {
       }
     ]
   });
+
+  const history = useHistory();
+  const [showActive, setShowActive] = useState(true);
+  const { t } = useTranslation();
+
   const { data, error, loading } = useQuery(GET_NOTES, {
+    variables: {
+      includeArchived: showActive
+    },
     pollInterval: 5000
   });
-  // const { createNote } = useNotes();
-  const history = useHistory();
-  const [showActive, setShowActive] = useState(false);
-  const { t } = useTranslation();
 
   if (loading) {
     return "Loading..." //TODO: eventually show a loading spinner
@@ -71,13 +75,6 @@ export default function NoteListPage(props) {
   }
 
   const notes = (data && data.notes) || [];
-
-  let filteredNotes;
-    if (showActive) {
-      filteredNotes = notes.filter((note) => note.isArchived !== true);
-    } else {
-      filteredNotes = notes;
-    }
 
   const handleListItemClick = (id) => {
     history.push(`/notes/edit/${id}`);
@@ -112,7 +109,7 @@ export default function NoteListPage(props) {
       <IonContent>
         <IonList lines="full">
           {
-            filteredNotes.map((note) => {
+            notes.map((note) => {
               return (
                 <NoteListItem
                   key={note.id}
